@@ -33,7 +33,7 @@ def loginView(request):
             messages.success(request,'Wrong password')
             return redirect('/login')
         login(request,user)
-        return redirect('/home')
+        return redirect('/user-profile')
     return render(request,'login.html',{})
 
 
@@ -109,7 +109,16 @@ def send_mail_after_registration(email,username,token):
 
 
 
+def UserProfile(request):
+    user = request.user.customer
+    form = ProfileUpdateForm(request.POST or None,instance=user)
 
+    if request.POST:
+        form = ProfileUpdateForm(request.POST,request.FILES,instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('/user-profile')
+    return render(request,'create-user-profile.html',{'form':form})
 
 def UpdateProfile(request):
     form = ProfileUpdateForm()
