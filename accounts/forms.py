@@ -1,22 +1,20 @@
+
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from .models import Customer
 
 
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
 
-
-
-
-class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
     class Meta:
         model = User
-        fields = ('username','email','password1')
+        fields = ['username', 'email']
 
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if Self.User.username == username:
-            raise forms.ValidationError('This username is already taken ')
-        return username
-
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = "__all__"
+        exclude = ['blocked','role','is_verified','user']

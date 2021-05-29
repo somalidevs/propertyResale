@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_quill',
     'phonenumber_field',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -127,4 +128,38 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'accounts/static'),
+    os.path.join(BASE_DIR,'core/static'),
+    ]
+
+MEDIA_URL='/media/'
+# MEDIA_URL='/images/'
+MEDIA_ROOT= os.path.join(BASE_DIR,'media/')
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_TEMPLATE_PACK='bootstrap'
+
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST ='smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER ='zaidnajim111@gmail.com'
+EMAIL_HOST_PASSWORD='fayo12345as'
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
