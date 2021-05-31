@@ -41,7 +41,16 @@
 					{% else %}
 					<h2>Please Edit Your profile</h2>
 					{% endif %}
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+					<p>
+						
+						{% if request.user.customer.gender == "male"%}
+						<b>Hello Mr. {{request.user.username}}</b>
+						{% else %}
+						<b>Hello Mrs. {{request.user.username}}</b>	
+						{% endif %}
+							
+						
+					</p>				
 				</div>
 				<!-- Edit Personal Info -->
 				<div class="row">

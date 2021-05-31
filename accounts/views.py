@@ -17,24 +17,33 @@ def loginView(request):
     if request.method=='POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user_obj = User.objects.filter(username=username).first()
-
-        if user_obj is None:
-            messages.error(request,'User not Found')
+        try:
+            user_obj = User.objects.filter(username=username).first() 
+            if user_obj is None:
+                messages.error(request,'User not Found')
+                return redirect('/login')
+            profile_one = Customer.objects.filter(user=user_obj).first()
+            if not profile_one.is_verified:
+                messages.error(request,'User is not verfied Check your mail')
+                return redirect('/login')
+            user = authenticate(username=username,password=password)
+            if user is None:
+                messages.success(request,'Wrong password')
+                return redirect('/login')
+            login(request,user)
+            return redirect('/user-profile')
+        except:
+            messages.success(request,'User is not Customer')
             return redirect('/login')
-
-        profile_one = Customer.objects.filter(user=user_obj).first()
-        if not profile_one.is_verified:
-            messages.error(request,'User is not verfied Check your mail')
-            return redirect('/login')
-
-        user = authenticate(username=username,password=password)
-        if user is None:
-            messages.success(request,'Wrong password')
-            return redirect('/login')
-        login(request,user)
-        return redirect('/user-profile')
+        
     return render(request,'login.html',{})
+
+
+
+
+def LogoutView(request):
+    logout(request)
+    return redirect('/login')
 
 
 

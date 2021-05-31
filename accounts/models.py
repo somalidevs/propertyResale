@@ -16,7 +16,7 @@ class Customer(models.Model):
     is_verified = models.BooleanField(default=False)
     created_at= models.DateTimeField(auto_now_add=True)
     fullname=models.CharField(max_length=100,blank=True,null=True)
-    gender = models.CharField(max_length=10,choices=Gender,default=None)
+    gender = models.CharField(max_length=10,choices=Gender,default='male')
     image = models.ImageField(upload_to='images',default='default.png')
     phonenumber=models.CharField(max_length=15,blank=True,null=True)
     address=models.TextField(blank=True,null=True)
