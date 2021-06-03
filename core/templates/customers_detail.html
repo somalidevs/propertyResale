@@ -1,0 +1,140 @@
+{% extends 'pnav.html' %}
+
+
+{% block content %}
+
+{% load widget_tweaks %}
+
+
+
+
+
+
+
+
+
+<section class="dashboard section">
+  <!-- Container Start -->
+  <div class="container">
+    <!-- Row Start -->
+    <div class="row">
+
+    {% include 'adminnav.html' %}
+
+
+
+      <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+        <!-- Recently Favorited -->
+        <div class="widget dashboard-container my-adslist">
+          <h3 class="widget-header">Users</h3>
+          <table class="table table-responsive product-dashboard-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>User Info</th>
+                <th class="text-center">Membership</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+    
+
+
+              <tr>
+                <td class="product-details">
+                  <img width="150px" height="auto" src="{{customer.image.url}}" alt="image description">
+                </td>
+                <br>
+                <td class="product-details">
+                  <h3 class="title">Username : {{customer.user.username}}</h3>
+                  <span class="add-id"><strong>Customer ID:</strong> {{customer.id}}</span>
+                  <span><b><strong>Joined on: </strong><time>{{customer.created_at}}</time> </b></span>
+                  {% if customer.blocked %}
+                  <span class="status active"><strong>Status</strong><b style="color: red;">Blocked</b></span>
+                  {% else %}
+                  <span class="status active"><strong>Status</strong><b style="color: green;">Active</b></span>
+                  {% endif %}
+                  
+                  {% if customer.fullname %}
+                  <b><span class="location" style="color:black;"><strong>Fullname</strong>{{customer.fullname}}</span> </b> 
+                  {% else %}
+                <b><span class="location" style="color: darkred;"><strong>User:</strong>Didnt Update his/her Profile</span></b>
+                  {% endif %}
+
+                  <b><span class="location" style="color: darkred;"><strong>Auth Token:</strong>{{customer.auth_token}}</span></b>
+                  <b><span class="location" style="color: darkred;"><strong>Gender:</strong>{{customer.gender}}</span></b>
+                  
+                  {% if customer.phonenumber %}
+                  <b><span class="location" style="color: darkred;"><strong>Phone:</strong>{{customer.phonenumber}}</span></b> 
+                  {% else %}
+                  <b><span class="location" style="color: darkred;"><strong>Phone:</strong>No phone number specified</span></b>    
+                  {% endif %}
+                      
+                 
+                  
+                  
+                </td>
+                
+                {% if customer.role == "seller" %}
+                <td class="product-category"><span class="categories">Premium</span></td>    
+                {% else %}
+                <td class="product-category"><span class="categories">User</span></td>
+                {% endif %}
+                    
+                
+                <td class="action" data-title="Action">
+                  <div class="">
+                    <ul class="list-inline justify-content-center">
+                      
+                      <li class="list-inline-item">
+                        <a class="edit" data-toggle="tooltip" data-placement="top" title="Edit" href="">
+                          <i class="fa fa-pencil"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a class="delete" data-toggle="tooltip" data-placement="top" title="Delete" href="">
+                          <i class="fa fa-trash"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+
+
+        
+
+
+
+
+
+
+
+
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- pagination -->
+     
+        <!-- pagination -->
+
+      </div>
+    </div>
+    <!-- Row End -->
+  </div>
+  <!-- Container End -->
+</section>
+
+
+
+
+{% endblock content %}
+
+
+
+    

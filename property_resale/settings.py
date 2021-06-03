@@ -42,10 +42,14 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_quill',
     'phonenumber_field',
+    'django_filters',
     'django_extensions',
+    'widget_tweaks',
+    # 'django_limits',
 ]
 
 MIDDLEWARE = [
+    'django_limits.middleware.LimitExceededMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

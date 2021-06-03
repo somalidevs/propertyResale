@@ -35,7 +35,7 @@
                           <input type="password" placeholder="Password*" class="border p-3 w-100 my-2" name="password">
                           <div class="loggedin-forgot d-inline-flex my-3">
                               
-                                  <label for="registering" class="px-2">By registering, you accept our <a class="text-primary font-weight-bold" href="terms-condition.html">Terms & Conditions</a></label>
+                                  <label for="registering" class="px-2">By registering, you accept our <a class="text-primary font-weight-bold" href="{% url 'terms_conditions_view' %}">Terms & Conditions</a></label>
                           </div>
                           <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Register Now</button>
                           <a class="mt-3 d-inline-block text-primary" href="{% url 'login_view' %}">Login Now</a>

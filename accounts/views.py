@@ -31,7 +31,7 @@ def loginView(request):
                 messages.success(request,'Wrong password')
                 return redirect('/login')
             login(request,user)
-            return redirect('/user-profile')
+            return redirect('/profile')
         except:
             messages.success(request,'User is not Customer')
             return redirect('/login')
@@ -49,7 +49,7 @@ def LogoutView(request):
 
 
 
-
+@sync_to_async
 def registerView(request):
     if request.POST:
         username = request.POST.get('username')
@@ -107,7 +107,7 @@ def tokenSent(request):
 def successToken(request):
     return render(request,'success.html',{})
 
-# @sync_to_async
+@sync_to_async
 def send_mail_after_registration(email,username,token):
     subject = 'Your Account Needs to be verified'
     message = f"Hi {username}, please try to paste the link to verify your account http://127.0.0.1:8000/verify/{token}"
@@ -127,8 +127,13 @@ def UserProfile(request):
         if form.is_valid():
             form.save()
             return redirect('/user-profile')
-    return render(request,'create-user-profile.html',{'form':form})
+    return render(request,'create_user_profile.html',{'form':form})
 
 def UpdateProfile(request):
     form = ProfileUpdateForm()
     return render(request,'update_profile.html',{'form':form})
+
+
+
+
+

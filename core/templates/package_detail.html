@@ -1,0 +1,113 @@
+{% extends 'nav.html' %}
+
+{% block content %}
+    
+
+
+{% load static %}
+
+
+
+
+
+
+<div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header border-bottom-0">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+
+    <form method="POST">{% csrf_token %}
+    <div class="modal-body text-center">
+      <img src="{% static 'images/account/Account1.png'%}" class="img-fluid mb-2" alt="">
+      <h6 class="py-2">Choose Bank with the correspondent Account</h6>
+      <p><b>After the Bank accept the payment we will verify your transaction .</b></p>
+                <select class="form-select form-select-lg mb-3 w-100 rounded" aria-label=".form-select-lg example" name="bank_name">
+                <option selected>Awash Bank Of Ethiopia</option>
+                <option value="1">Commercial Bank Of Ethiopia</option>
+                <option value="2">Bunna Bank Of Ethiopia</option>
+                <option value="2">Dashen Bank Of Ethiopia</option>
+            
+            </select>
+      <select class="form-select form-select-lg mb-3 w-100 rounded" aria-label=".form-select-lg example" name="account">
+        <option selected>Awsh(134252342)</option>
+        <option value="1">CBE(2342352342)</option>
+        <option value="2">Bunna(23423352342)</option>
+        <option value="2">DSHN(24243235243)</option>
+    
+    </select>
+    </div>
+    <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+      <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+      <button type="submit" class="btn btn-success">Continue</button>
+    </div>
+  </form>
+
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="section bg-gray">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="heading text-center pb-5">
+                    <h2 class="font-weight-bold">{{package.name}} For You</h2>
+                </div>
+            </div>
+
+     
+            <div class="col-lg-12 col-md-12">
+                <div class="package-content bg-light border text-center p-5 my-2 my-lg-0">
+                    <div class="package-content-heading border-bottom">
+                        {% if package.name == "Basic Package"%}
+                        <i class="fa fa-paper-plane"></i>
+                        {% elif package.name == "Standard Package"%}
+                        <i class="fa fa-plane"></i>
+                        {% elif package.name == "Premium Package"%}
+                        <i class="fa fa-rocket"></i>
+                        {% endif %}
+
+                        <h2>{{package.name}}</h2>
+                        <h4 class="py-3"> <span>b{{package.price}}.00</span> Per Month</h4>
+                    </div>
+                    <ul>
+                        <li class="my-4"> <i class="fa fa-check"></i> Free Ad Posting</li>
+                        <li class="my-4"> <i class="fa fa-check"></i>{{package.plan_list1}}</li>
+                        <li class="my-4"> <i class="fa fa-check"></i>{{package.plan_list2}}</li>
+                        <li class="my-4"> <i class="fa fa-check"></i>100% Secure</li>
+                    </ul>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#deleteaccount">Continue Purchasing This Package</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!--============================
+=            Footer            =
+=============================-->
+
+
+
+{% endblock content %}
