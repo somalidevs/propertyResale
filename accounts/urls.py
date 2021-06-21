@@ -10,6 +10,5 @@ urlpatterns = [
     path('success/', successToken,name='success'),
     path('verify/<auth_token>', Verify,name='verify'),
     path('error/', error_page,name='error'),
-    path('update',UpdateProfile,name='update'),
-    path('user-profile',UserProfile,name='user-profile'),
+    path('update-profile',UserProfile,name='update-profile'),
 ]

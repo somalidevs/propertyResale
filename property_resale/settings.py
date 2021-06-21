@@ -146,7 +146,7 @@ MEDIA_ROOT= os.path.join(BASE_DIR,'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CRISPY_TEMPLATE_PACK='bootstrap'
+CRISPY_TEMPLATE_PACK='bootstrap4'
 
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST ='smtp.gmail.com'
@@ -167,3 +167,7 @@ GRAPH_MODELS = {
   'all_applications': True,
   'group_models': True,
 }
+
+
+STRIPE_PUBLIC_KEY= "pk_test_51IgPP7LkW4Uiu90UDTOIbz6VQ3ZnqReVh207cedHQD9fmWZYaZnlgZoQKT2McizyAWWUOwh6aCYvvMkEtGWotVOj00jEcjaFEL"
+STRIPE_SECRET_KEY= "sk_test_51IgPP7LkW4Uiu90UDEW7MTiM9GdkDGmLY245bxRMMFymWRtnFtLg7hpfwVUaYHvDb1zpP6LhE7xhxG2oXnYnH1Da009GEKFruy"

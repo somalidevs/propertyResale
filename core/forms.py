@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 from accounts.models import Customer
+from django.core.exceptions import ValidationError
 
 
 
@@ -19,8 +20,18 @@ class CustomerEditForm(forms.ModelForm):
         model = Customer
         fields='__all__'
         
+        
+    def clean_fullname(self):
+        fullname = self.cleaned_data.get('fullname')
+        fullname_ = Customer.objects.filter(fullname=fullname)
+        if fullname == fullname_:
+            raise ValidationError('A user with that name already exists')
+        return fullname
 
-
-
+class CreatePropertyForm(forms.ModelForm):
+    class Meta:
+        model = Property
+        fields='__all__'
+        exclude  = ['author','date_created','data_updated','slug']
 
 

@@ -16,6 +16,8 @@
 
 
             {% for package in packages  %}
+            {% if package.name == "Free Trial"%}
+            {% else %}
             <div class="col-lg-4 col-md-6">
                 <div class="package-content bg-light border text-center p-5 my-2 my-lg-0">
                     <div class="package-content-heading border-bottom">
@@ -27,7 +29,7 @@
                         <i class="fa fa-rocket"></i>
                         {% endif %}
 
-                        <a href="{% url 'package_detail' package.slug %}"><h2>{{package.name}}</h2></a>
+                        <a href="{% url 'payments' package.slug %}"><h2>{{package.name}}</h2></a>
                         <h4 class="py-3"> <span>birr{{package.price}}.00</span> Per Month</h4>
                     </div>
                     <ul>
@@ -36,9 +38,10 @@
                         <li class="my-4"> <i class="fa fa-check"></i>{{package.plan_list2}}</li>
                         <li class="my-4"> <i class="fa fa-check"></i>100% Secure</li>
                     </ul>
-                    <a href="{% url 'package_detail' package.slug %}" class="btn btn-primary">Buy Now</a>
+                    <a href="{% url 'payments' package.slug %}" class="btn btn-primary">Buy Now</a>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
 
 

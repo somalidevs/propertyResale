@@ -21,6 +21,7 @@ class Customer(models.Model):
     gender = models.CharField(max_length=10,choices=Gender,default='male')
     image = models.ImageField(upload_to='images',default='default.jpg')
     phonenumber=models.CharField(max_length=15,blank=True,null=True)
+    stripe_customer_id = models.CharField(max_length=100,blank=True,null=True)
     address=models.TextField(blank=True,null=True)
     role=models.CharField(max_length=10,choices=Role,default='buyer')
     blocked=models.BooleanField(default=False)

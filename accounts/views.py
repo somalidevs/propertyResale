@@ -107,7 +107,7 @@ def tokenSent(request):
 def successToken(request):
     return render(request,'success.html',{})
 
-@sync_to_async
+
 def send_mail_after_registration(email,username,token):
     subject = 'Your Account Needs to be verified'
     message = f"Hi {username}, please try to paste the link to verify your account http://127.0.0.1:8000/verify/{token}"
@@ -126,12 +126,9 @@ def UserProfile(request):
         form = ProfileUpdateForm(request.POST,request.FILES,instance=user)
         if form.is_valid():
             form.save()
-            return redirect('/user-profile')
+            return redirect('/profile')
     return render(request,'create_user_profile.html',{'form':form})
 
-def UpdateProfile(request):
-    form = ProfileUpdateForm()
-    return render(request,'update_profile.html',{'form':form})
 
 
 
