@@ -56,12 +56,18 @@
 						<div class="product-slider-item my-4" data-image="{{property.images_1.url}}">
 							<img class="img-fluid w-100" src="{{property.images_1.url}}" alt="product-img">
 						</div>
+						
+						{% if property.images_2 %}
 						<div class="product-slider-item my-4" data-image="{{property.images_2.url}}">
 							<img class="d-block img-fluid w-100" src="{{property.images_2.url}}" alt="Second slide">
-						</div>
+						</div>	
+						{% endif %}
+							
+						{% if property.images_3%}
 						<div class="product-slider-item my-4" data-image="{{property.images_3.url}}">
 							<img class="d-block img-fluid w-100" src="{{property.images_3.url}}" alt="Third slide">
 						</div>
+						{% endif %}
 						<div class="product-slider-item my-4" data-image="{{property.images_1.url}}">
 							<img class="d-block img-fluid w-100" src="{{property.images_1.url}}" alt="Third slide">
 						</div>
@@ -233,9 +239,11 @@
 						<p class="member-time">Member Since {{property.date_created}}</p>
 						<a href="">See all ads</a>
 						<ul class="list-inline mt-20">
-							<li class="list-inline-item"><a href="" class="btn btn-contact d-inline-block  btn-primary px-lg-5 my-1 px-md-3">Contact</a></li>
-							<li class="list-inline-item"><a href="" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Make an
-									offer</a></li>
+							<li class="list-inline-item"><a href="" class="btn btn-contact d-inline-block  btn-primary btn-main-sm px-lg-5 my-1 px-md-3">Contact</a></li>
+							<li class="list-inline-item"><a href="" class="btn btn-offer d-inline-block btn-primary btn-main-sm ml-n1 my-1 px-lg-4 px-md-3">Make anoffer</a></li>
+							{% if request.user.customer == property.author %}
+							<li class="list-inline-item"><a href="{%url 'property_edit_view' property.slug %}" class="btn btn-offer d-inline-block btn-warning btn-main-sm ml-n1 my-1 px-lg-4 px-md-3">Edit</a></li>
+							{% endif %}
 						</ul>
 					</div>
 					<!-- Map Widget -->

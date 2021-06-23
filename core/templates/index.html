@@ -3,7 +3,7 @@
 {% block content %}
 {% load static %}
 
-	
+{% load widget_tweaks %}
 
 <!--===============================
 =            Hero Area            =
@@ -44,27 +44,26 @@
 						<div class="container">
 							<div class="row justify-content-center">
 								<div class="col-lg-12 col-md-12 align-content-center">
-										<form>
-											<div class="form-row">
-												<div class="form-group col-md-4">
-													<input type="text" class="form-control my-2 my-lg-1" id="inputtext4" placeholder="What are you looking for">
-												</div>
-												<div class="form-group col-md-3">
-													<select class="w-100 form-control mt-lg-1 mt-md-2">
-														<option>Category</option>
-														<option value="1">Top rated</option>
-														<option value="2">Lowest Price</option>
-														<option value="4">Highest Price</option>
-													</select>
-												</div>
-												<div class="form-group col-md-3">
-													<input type="text" class="form-control my-2 my-lg-1" id="inputLocation4" placeholder="Location">
-												</div>
-												<div class="form-group col-md-2 align-self-center">
-													<button type="submit" class="btn btn-primary">Search Now</button>
-												</div>
+									<form action="{% url 'property_advanced_search_view'%}" method="GET">
+										<div class="form-row">
+											<!-- {{filter.form.fullname}} -->
+											<div class="form-group col-md-3">
+												{% render_field filter.form.name class="form-control my-2 my-lg-0 " placeholder="Property Name ?" %}
 											</div>
-										</form>
+			
+											<div class="form-group col-md-3">
+												<option>{% render_field filter.form.location class='form-control w-100' %}</option>
+			
+											</div>
+											<div class="form-group col-md-3">
+												{% render_field filter.form.category class="form-control w-100" %}
+											</div>
+
+											<div class="form-group col-md-2">
+												<button type="submit" class="btn btn-primary">Search Now</button>
+											</div>
+										</div>
+									</form>
 									</div>
 								</div>
 					</div>
@@ -99,27 +98,31 @@
 			<!-- offer 01 -->
 			<div class="col-lg-12">
 				<div class="trending-ads-slide">
-					<div class="col-sm-12 col-lg-4">
+
+
+
+{% for property in properties %}
+<div class="col-sm-12 col-lg-4">
 						<!-- product card -->
 <div class="product-item bg-light">
 	<div class="card">
 		<div class="thumb-content">
 			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-1.jpg" alt="Card image cap">
+			<a href="{% url 'property_detail_view' property.slug%}">
+				<img class="card-img-top img-fluid" src="{{property.images_1.url}}" alt="Card image cap">
 			</a>
 		</div>
 		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
+		    <h4 class="card-title"><a href="single.html">{{property.name}}</a></h4>
 		    <ul class="list-inline product-meta">
 		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
+		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>{{property.category}}</a>
 		    	</li>
 		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
+		    		<a href="#"><i class="fa fa-calendar"></i>{{property.date_created}}</a>
 		    	</li>
 		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
+		    <p class="card-text">{{property.description}}!</p>
 		    <div class="product-ratings">
 		    	<ul class="list-inline">
 		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
@@ -132,122 +135,14 @@
 		</div>
 	</div>
 </div>
-
-
-
-					</div>
-					<div class="col-sm-12 col-lg-4">
-						<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-2.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">Full Study Table Combo</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Furnitures</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
 </div>
+{% endfor %}
 
 
 
-					</div>
-					<div class="col-sm-12 col-lg-4">
-						<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="{% static 'images/products/products-3.jpg' %}" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">11inch Macbook Air</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Electronics</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
 
 
 
-					</div>
-					<div class="col-sm-12 col-lg-4">
-						<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="single.html">
-				<img class="card-img-top img-fluid" src="images/products/products-2.jpg" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">Full Study Table Combo</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>Furnitures</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>26th December</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, aliquam!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-
-
-
-					</div>
 				</div>
 			</div>
 			
@@ -431,70 +326,6 @@
 =            Footer            =
 =============================-->
 
-<footer class="footer section section-sm">
-  <!-- Container Start -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3 col-md-7 offset-md-1 offset-lg-0">
-        <!-- About -->
-        <div class="block about">
-          <!-- footer logo -->
-          <img src="images/logo-footer.png" alt="">
-          <!-- description -->
-          <p class="alt-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-      </div>
-      <!-- Link list -->
-      <div class="col-lg-2 offset-lg-1 col-md-3">
-        <div class="block">
-          <h4>Site Pages</h4>
-          <ul>
-            <li><a href="#">Boston</a></li>
-            <li><a href="#">How It works</a></li>
-            <li><a href="#">Deals & Coupons</a></li>
-            <li><a href="#">Articls & Tips</a></li>
-            <li><a href="terms-condition.html">Terms & Conditions</a></li>
-          </ul>
-        </div>
-      </div>
-      <!-- Link list -->
-      <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
-        <div class="block">
-          <h4>Admin Pages</h4>
-          <ul>
-            <li><a href="category.html">Category</a></li>
-            <li><a href="single.html">Single Page</a></li>
-            <li><a href="store.html">Store Single</a></li>
-            <li><a href="single-blog.html">Single Post</a>
-            </li>
-            <li><a href="blog.html">Blog</a></li>
-
-
-
-          </ul>
-        </div>
-      </div>
-      <!-- Promotion -->
-      <div class="col-lg-4 col-md-7">
-        <!-- App promotion -->
-        <div class="block-2 app-promotion">
-          <div class="mobile d-flex">
-            <a href="">
-              <!-- Icon -->
-              <img src="images/footer/phone-icon.png" alt="mobile-icon">
-            </a>
-            <p>Get the Dealsy Mobile App and Save more</p>
-          </div>
-          <div class="download-btn d-flex my-3">
-            <a href="#"><img src="{% static 'images/apps/google-play-store.png'%}" class="img-fluid" alt=""></a>
-            <a href="#" class=" ml-3"><img src="{% static 'images/apps/apple-app-store.png'%}" class="img-fluid" alt=""></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
 

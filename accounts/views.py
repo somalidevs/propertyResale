@@ -49,7 +49,7 @@ def LogoutView(request):
 
 
 
-@sync_to_async
+
 def registerView(request):
     if request.POST:
         username = request.POST.get('username')

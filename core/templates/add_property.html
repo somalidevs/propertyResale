@@ -3,7 +3,7 @@
 {% block content %}
     
 {% load crispy_forms_tags %}
-    
+{% load widget_tweaks %}
 <!--==================================
 =            User Profile            =
 ===================================-->
@@ -11,6 +11,10 @@
 <section class="user-profile section">
 	<div class="container">
 		<div class="row">
+
+
+
+
 			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
 				<div class="sidebar">
 					<!-- User Widget -->
@@ -32,6 +36,7 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 				<!-- Edit Profile Welcome Text -->
 				<div class="widget welcome-message">
@@ -47,7 +52,7 @@
 							<form method="POST" enctype="multipart/form-data">{% csrf_token %}
 								<!-- First Name -->
 								<div class="form-group">
-							
+									{% render_field forms class="for" %}
 									{{form|crispy}}
 								</div>	<!-- Submit button -->
 								<button class="btn btn-primary" type="submit">Save My Changes</button>

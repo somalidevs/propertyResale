@@ -9,6 +9,7 @@ from accounts.models import Customer
 from django.db.models.signals import post_save
 from django.conf import settings
 import stripe
+from django.urls import reverse
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -55,6 +56,11 @@ class Property(models.Model):
                         slug_gen = str(slugify(self.name))
                 self.slug = slug_gen
                 return super().save(*args,**kwargs)
+        
+        
+        def get_absolute_url(self):
+            return reverse("property_detail_view", kwargs={"slug": self.slug})
+        
 
 
 
@@ -135,6 +141,24 @@ def post_save_customer(sender,instance,created,*args,**kwargs):
 
 
 post_save.connect(post_save_customer,sender=Customer)
+
+
+
+
+
+class ContactUs(models.Model):
+        name = models.CharField(max_length=100)
+        subject = models.CharField(max_length=100) 
+        email = models.EmailField()
+        phone = models.CharField(max_length=100)
+        message = models.TextField()
+        
+        
+        def __str__(self):
+                return self.name
+
+
+
 
 
 

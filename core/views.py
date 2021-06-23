@@ -1,9 +1,17 @@
 from django.contrib import messages
+from django.core import paginator
 from django.shortcuts import render,redirect
 from .models import *
 # Create your views here.
 from .forms import *
 from accounts.models import Customer
+
+from asgiref.sync import sync_to_async
+
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+
+from django.core.mail import send_mail
 
 from .filters import CustomerFilter
 from django import template
@@ -12,9 +20,19 @@ import stripe
 from django.http import JsonResponse
 # register = template.Library()
 from django.views import generic
+from django.core.paginator import Paginator
+from .filters import *
 
+
+@sync_to_async
 def IndexView(request):
-    return render(request,'index.html',{})
+    properti = Property.objects.all().order_by('-id')
+    filtered_properti = PropertyFilter(request.GET,queryset=properti)
+    properti = filtered_properti.qs
+    paginator = Paginator(properti,6)
+    page = request.GET.get('q')
+    properti = paginator.get_page(page)
+    return render(request,'index.html',{'properties':properti,'filter':filtered_properti})
 
 
 def PackageView(request):
@@ -103,7 +121,19 @@ def ProfileView(request):
     sub3 = Subscription.objects.filter(user=user,plan=plan3)
     
     properti = Property.objects.filter(author=user).count()
-    property_data = Property.objects.filter(author=user)
+    property_data = Property.objects.filter(author=user).order_by('-id')
+    page = request.GET.get('q')
+    paginator = Paginator(property_data,4)
+    property_data = paginator.get_page(page)
+    form = CreatePropertyForm(request.POST or None)
+    if request.POST:
+        form = CreatePropertyForm(request.POST,request.FILES)
+        if form.is_valid():
+            sr = form.save(commit=False)
+            sr.author=request.user.customer
+            sr.save()
+            messages.success(request,'Successfully Added New Property')
+            return redirect('/profile')
     # if sub and properti >= 1:
     #     return redirect('/')
     context={
@@ -113,6 +143,7 @@ def ProfileView(request):
         'sub2':sub2,
         'sub3':sub3,
         'properties':property_data,
+        'form':form,
         
         }
 
@@ -230,46 +261,98 @@ def retrySubscription(request):
 
 def PropertyDisplayView(request):
     category = request.GET.get('category')
-    if category == None:
+    location = request.GET.get('location')
+    
+    if category == None and location == None:
         properti = Property.objects.all()
+        
+        paginator = Paginator(properti,6)
+        page = request.GET.get('q')
+        properti = paginator.get_page(page) 
+        
     elif category:
         properti = Property.objects.filter(category__name=category)
+
+    elif location:
+        properti = Property.objects.filter(location__name=location)
+        
+        
+
     categories = Category.objects.all()
-    location = Location.objects.all()
+    locations = Location.objects.all()
     p_type = Type.objects.all()
     context={
         'properties':properti,
         'categories':categories,
-        'locations':location,
+        'locations':locations,
         'types':p_type,
+        # 'properties':properties,
+        
     }
     return render(request,'properties.html',context)
 
 
-
+def PropertyAdvancedSearch(request):
+    properti = Property.objects.all()
+    # properties = Property.objects.all()
+    filtered_properti = PropertyFilter(request.GET,queryset=properti)
+    properti = filtered_properti.qs
+    paginator = Paginator(properti,6)
+    page = request.GET.get('q')
+    properti = paginator.get_page(page) 
+    context ={
+        'properties':properti,
+        'filter':filtered_properti,
+    }
+    return render(request,'advanced_property_search.html',context)
 
 def PropertyDetailView(request,slug):
     properti = Property.objects.get(slug=slug)
     return render(request,'property_detail.html',{'property':properti})
-    
 
-def PropertyCreate(request):
-    form = CreatePropertyForm(request.POST or None)
+def PropertyEditView(request,slug):
+    properti = Property.objects.get(slug=slug)
+    form = EditPropertyForm(request.POST or None,instance=properti)
     if request.POST:
-        form = CreatePropertyForm(request.POST,request.FILES)
+        form = EditPropertyForm(request.POST or None,request.FILES,instance=properti)
         if form.is_valid():
-            sr = form.save(commit=False)
-            sr.author=request.user.customer
-            sr.save()
-            messages.success(request,'Successfully Added New Property')
-            return redirect('/profile')
-    return render(request,'add_property.html',{'form':form})
-
-
-
-
-
+            slugs = form.save(commit=False)
+            form.save()
+            messages.success(request,'Property Updated Successfully')
+    return render(request,'property_edit.html',{'property':properti,'form':form})
 
 
 
 # END OF PROPERTY HANDLING SECTION
+
+
+# CONTACT US SECTION
+
+
+
+
+
+
+def ContactUsView(request):
+    if request.POST:
+        username = request.POST['username']
+        subject = request.POST['subject']
+        email = request.POST['email']
+        phone =  request.POST['phone']
+        message = request.POST['message']
+        msg = ContactUs.objects.create(name=username,subject=subject,email=email,phone=phone,message=message)
+        # send_mail(
+        #     subject,
+        #     message,
+        #     email,
+        #     ['zaidnajim111@gmail.com'],
+        #     fail_silently=True
+        # )
+        msg.save()
+        messages.success(request,'Thank you for contacting Us')
+        return redirect('/contact-us')
+    
+    return render(request,'contact-us.html',{})
+    
+    
+# END OF CONTACT US SECTION

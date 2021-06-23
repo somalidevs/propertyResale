@@ -34,4 +34,9 @@ class CreatePropertyForm(forms.ModelForm):
         fields='__all__'
         exclude  = ['author','date_created','data_updated','slug']
 
+class EditPropertyForm(forms.ModelForm):
+    class Meta:
+        model = Property
+        fields='__all__'
+        exclude  = ['author','date_created','data_updated','slug']
 
