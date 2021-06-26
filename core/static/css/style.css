@@ -593,7 +593,7 @@ ul.pagination .active a {
 }
 
 .page-search {
-  background: #5672f9;
+  background: #28a745;
   padding: 30px 0;
 }
 
@@ -1732,7 +1732,7 @@ ul.pagination .active a {
 }
 
 .widget.price-range .slider-handle {
-  background: #5672f9;
+  background: #28a745;
 }
 
 .widget.price-range .slider-track {
@@ -1749,7 +1749,7 @@ ul.pagination .active a {
 }
 
 .widget.price {
-  background: #5672f9;
+  background: #28a745;
 }
 
 .widget.price h4 {

@@ -8,9 +8,10 @@ urlpatterns = [
     path('banks',BankAccounts,name='bank_account_view',),
     path('Success-transaction',Success,name='success_transaction_view'),
     
-    path('customers/admin',CustomerView,name='customers_admin_view'),
-    path('customers/admin/<slug>',CustomerDetailView,name='customers_admin_detail_view'),
-    path('customers/admin/edit/<slug>',CustomerEditView,name='customers_admin_edit_view'),
+    path('admin/customers',CustomerView,name='customers_admin_view'),
+    path('admin/customers/<slug>',CustomerDetailView,name='customers_admin_detail_view'),
+    path('admin/customers/edit/<slug>',CustomerEditView,name='customers_admin_edit_view'),
+    path('admin/customers/delete/<slug>',CustomerDeleteView,name='customers_admin_delete_view'),
     
     path('profile',ProfileView,name='profile_view'),
     path('payments/<slug>',StripePayment,name='payments'),

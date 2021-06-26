@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from django.utils.text import slugify
-
+import uuid
 
 
 Gender = (('male','male'),('female','female'))
@@ -30,10 +30,13 @@ class Customer(models.Model):
         return self.user.username
         
     def save(self,*args,**kwargs):
-        if self.fullname:
-                slug_gen = str(slugify(self.fullname))
-        else:
-            slug_gen = str(slugify(self.user.username))
-        self.slug = slug_gen
+        r = Customer.objects.filter(slug=self.slug).first()
+        if not self.slug:
+            if self.fullname:
+                slug_gen = str(slugify(self.fullname))+str(uuid.uuid4())[:4]
+            else:
+                slug_gen = str(slugify(self.user.username))
+            self.slug = slug_gen
+            
         return super().save(*args,**kwargs)
 

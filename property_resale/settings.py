@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_extensions',
     'widget_tweaks',
+    'rest_framework',
     # 'django_limits',
 ]
 
@@ -78,6 +79,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'property_resale.wsgi.application'
+
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 
 # Database

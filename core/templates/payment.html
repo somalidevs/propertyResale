@@ -1,9 +1,11 @@
-{% extends 'nav.html' %}
+{% extends 'pnav.html' %}
 
 {% block content %}
 {% load static %}
 
 
+<link rel="stylesheet" href="{% static 'css/payment.css'%}" />
+<script src="https://js.stripe.com/v3/"></script>
 
 <section class="dashboard section">
     <div class="container">

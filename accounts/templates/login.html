@@ -13,7 +13,7 @@
                 <div class="border">
                     <h3 class="bg-gray p-4">Login Now</h3>
                     {% if messages %}
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         
                      
                         {% for message in messages %}
@@ -28,8 +28,8 @@
 
                     <form method="POST">{% csrf_token %}
                         <fieldset class="p-4">
-                            <input type="text" placeholder="Username" class="border p-3 w-100 my-2" name="username">
-                            <input type="password" placeholder="Password" class="border p-3 w-100 my-2" name="password">
+                            <input type="text" placeholder="Username" class="border p-3 w-100 my-2" name="username" required>
+                            <input type="password" placeholder="Password" class="border p-3 w-100 my-2" name="password" required>
                             <div class="loggedin-forgot">
                                     <input type="checkbox" id="keep-me-logged-in">
                                     <label for="keep-me-logged-in" class="pt-3 pb-2">Keep me logged in</label>

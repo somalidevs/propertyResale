@@ -51,6 +51,8 @@ class Property(models.Model):
         
         def __str__(self):
             return self.name
+    
+    
         def save(self,*args,**kwargs):
                 if self.name:
                         slug_gen = str(slugify(self.name))
@@ -85,9 +87,16 @@ class Plan(models.Model):
 
        
 
-# class Enquiry(models.Model):
-#     user = 
-#     related_property  = 
+class Enquiry(models.Model):
+    user = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    related_property  = models.ForeignKey(Property,on_delete=models.CASCADE)
+    message = models.TextField()
+    
+    
+    def __str__(self):
+            return self.message[:5]
+
+
 
 class EnquiryPlan(models.Model):
         user = models.ForeignKey(Customer,on_delete=models.CASCADE, blank=True,null=True)
@@ -96,8 +105,8 @@ class EnquiryPlan(models.Model):
         plan = models.ForeignKey(Plan,on_delete=models.CASCADE, blank=True,null=True)
         checked = models.BooleanField(default=False)
 
-        def __str__(self):
-                return str(self.bank_name+" - "+ self.user.user.username)
+        # def __str__(self):
+        #         return str(self.bank_name+" - "+ self.user.user.username)
 
 
 class Logo(models.Model):
@@ -120,27 +129,27 @@ class Subscription(models.Model):
 
 
 
-def post_save_customer(sender,instance,created,*args,**kwargs):
-        if created:
-                free_trial_plan = Plan.objects.get(name="Free Trial")
-                subscription = Subscription.objects.create(user=instance,plan=free_trial_plan)
-                stripe_customer = stripe.Customer.create(email=instance.user.email)
-                stripe_subscription = stripe.Subscription.create(
-                        customer=stripe_customer['id'],
-                        items=[{'price':'price_1IyVxWLkW4Uiu90UYQuxZF82'}],
-                        trial_period_days = 7 
-                )
-                subscription.status = stripe_subscription["status"]
-                subscription.stripe_subscription_id = stripe_subscription["id"]
-                subscription.save()
-                instance.stripe_customer_id = stripe_customer['id']
-                instance.save()
+# def post_save_customer(sender,instance,created,*args,**kwargs):
+#         if created:
+#                 free_trial_plan = Plan.objects.get(name="Free Trial")
+#                 subscription = Subscription.objects.create(user=instance,plan=free_trial_plan)
+#                 stripe_customer = stripe.Customer.create(email=instance.user.email)
+#                 stripe_subscription = stripe.Subscription.create(
+#                         customer=stripe_customer['id'],
+#                         items=[{'price':'price_1IyVxWLkW4Uiu90UYQuxZF82'}],
+#                         trial_period_days = 7 
+#                 )
+#                 subscription.status = stripe_subscription["status"]
+#                 subscription.stripe_subscription_id = stripe_subscription["id"]
+#                 subscription.save()
+#                 instance.stripe_customer_id = stripe_customer['id']
+#                 instance.save()
         
 
 
 
 
-post_save.connect(post_save_customer,sender=Customer)
+# post_save.connect(post_save_customer,sender=Customer)
 
 
 

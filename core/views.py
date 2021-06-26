@@ -24,6 +24,9 @@ from django.core.paginator import Paginator
 from .filters import *
 
 
+from django.views.generic.edit import UpdateView ,DeleteView,CreateView
+
+
 @sync_to_async
 def IndexView(request):
     properti = Property.objects.all().order_by('-id')
@@ -99,6 +102,16 @@ def CustomerEditView(request,slug):
             messages.error(request,'Oops Something Went Wrong')
     return render(request,'customer_edit.html',{'form':form,'customer':customer})
 
+
+
+
+def CustomerDeleteView(request,slug):
+    r = Customer.objects.get(slug=slug)
+    if request.POST:
+        r.delete()
+        messages.success(request,'Successfully deleted the User')
+        return redirect('../../../admin/customers')
+    return render(request,'customer_delete.html',{'customer':r})
 # ENDCUSTOMER SECTION
 
 
@@ -308,6 +321,13 @@ def PropertyAdvancedSearch(request):
 
 def PropertyDetailView(request,slug):
     properti = Property.objects.get(slug=slug)
+    user = request.user.customer
+    if request.POST:
+        message = request.POST['message']
+        enqpr = Enquiry.objects.create(user=user,related_property=properti,message=message)
+        enqpr.save()
+        messages.success(request,'Successfully submitted your request')
+        return HttpResponseRedirect(reverse('property_detail_view',args={str(slug)}))
     return render(request,'property_detail.html',{'property':properti})
 
 def PropertyEditView(request,slug):
@@ -356,3 +376,7 @@ def ContactUsView(request):
     
     
 # END OF CONTACT US SECTION
+
+
+
+
