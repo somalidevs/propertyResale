@@ -10,7 +10,7 @@ from django.db.models.signals import post_save
 from django.conf import settings
 import stripe
 from django.urls import reverse
-
+from django.core.validators import MinValueValidator,MaxValueValidator
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -37,8 +37,10 @@ class Property(models.Model):
         price=models.CharField(max_length=20)
         slug = models.SlugField(blank=True,null=True)
         category=models.ForeignKey(Category,on_delete=models.CASCADE)
-        p_type=models.ForeignKey(Type,on_delete=models.CASCADE)
+        brand = models.CharField(blank=True,null=True,max_length=100)
+        ptype=models.ForeignKey(Type,on_delete=models.CASCADE)
         location=models.ForeignKey(Location,on_delete=models.CASCADE)
+        score = models.IntegerField(default=0,validators=[MaxValueValidator(5),MinValueValidator(0)])
         images_1=models.ImageField(upload_to='images') 
         images_2=models.ImageField(upload_to='images',blank=True,null=True) 
         images_3=models.ImageField(upload_to='images',blank=True,null=True) 
@@ -70,6 +72,7 @@ class Plan(models.Model):
         name = models.CharField(max_length=100)
         price = models.CharField(max_length=10)
         slug = models.SlugField(blank=True,null=True)
+        stripe_price_id = models.CharField(max_length=50,blank=True,null=True)
         currency = models.CharField(max_length=10,default='usd')
         plan_list1 = models.CharField(max_length=100,blank=True,null=True) 
         plan_list2 = models.CharField(max_length=100,blank=True,null=True)
@@ -110,7 +113,7 @@ class EnquiryPlan(models.Model):
 
 
 class Logo(models.Model):
-        user =  models.ForeignKey(User,on_delete=models.CASCADE)
+        user =  models.ForeignKey(User,on_delete=models.CASCADE)              
         image = models.ImageField(upload_to='images')
 
 
@@ -129,27 +132,27 @@ class Subscription(models.Model):
 
 
 
-# def post_save_customer(sender,instance,created,*args,**kwargs):
-#         if created:
-#                 free_trial_plan = Plan.objects.get(name="Free Trial")
-#                 subscription = Subscription.objects.create(user=instance,plan=free_trial_plan)
-#                 stripe_customer = stripe.Customer.create(email=instance.user.email)
-#                 stripe_subscription = stripe.Subscription.create(
-#                         customer=stripe_customer['id'],
-#                         items=[{'price':'price_1IyVxWLkW4Uiu90UYQuxZF82'}],
-#                         trial_period_days = 7 
-#                 )
-#                 subscription.status = stripe_subscription["status"]
-#                 subscription.stripe_subscription_id = stripe_subscription["id"]
-#                 subscription.save()
-#                 instance.stripe_customer_id = stripe_customer['id']
-#                 instance.save()
+def post_save_customer(sender,instance,created,*args,**kwargs):
+        if created:
+                free_trial_plan = Plan.objects.get(name="Free Trial")
+                subscription = Subscription.objects.create(user=instance,plan=free_trial_plan)
+                stripe_customer = stripe.Customer.create(email=instance.user.email)
+                stripe_subscription = stripe.Subscription.create(
+                        customer=stripe_customer['id'],
+                        items=[{'price':'price_1IyVxWLkW4Uiu90UYQuxZF82'}],
+                        trial_period_days = 7 
+                )
+                subscription.status = stripe_subscription["status"]
+                subscription.stripe_subscription_id = stripe_subscription["id"]
+                subscription.save()
+                instance.stripe_customer_id = stripe_customer['id']
+                instance.save()
         
 
 
 
 
-# post_save.connect(post_save_customer,sender=Customer)
+post_save.connect(post_save_customer,sender=Customer)
 
 
 

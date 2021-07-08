@@ -1,0 +1,113 @@
+{% extends 'pnav.html' %}
+
+{% block content %}
+	<!--==================================
+	=            User Profile            =
+	===================================-->
+
+	
+<section class="dashboard section">
+	<!-- Container Start -->
+	<div class="container">
+		<!-- Row Start -->
+		<div class="row">
+			{% include 'adminnav.html' %}
+			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+				<!-- Recently Favorited -->
+				<div class="widget dashboard-container my-adslist">
+					<h3 class="widget-header">My Ads</h3>
+					<table class="table table-responsive product-dashboard-table">
+						<thead>
+							<tr>
+								<th>Image</th>
+								<th>Name</th>
+								<th class="text-center">Package</th>
+								<th class="text-center">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for subs in sub %}
+							<tr>
+
+								<td class="product-thumb">
+									<img width="80px" height="auto" src="{{subs.user.image.url}}" alt="image description"></td>
+								<td class="product-details">
+									{% if subs.user.fullname %}
+										<h3 class="title">{{subs.user.fullname|capfirst}}</h3>
+									{% else %}
+										<h3 class="title">{{subs.user.user.username|capfirst}}</h3>
+									{% endif %}
+									<span class="add-id"><strong>SUB ID:</strong> {{subs.stripe_subscription_id}}</span>
+									<span><strong>Subscriped: </strong><time>{{subs.created}}</time> </span>
+									<span class="status active"><strong>Status</strong>{{subs.status}}</span>
+				
+								</td>
+								<td class="product-category"><span class="categories">{{subs.plan.name}}</span></td>
+								<td class="action" data-title="Action">
+									<div class="">
+										<ul class="list-inline justify-content-center">
+											<li class="list-inline-item">
+												<a data-toggle="tooltip" data-placement="top" title="Edit" class="edit" href="">
+													<i class="fa fa-clipboard"></i>
+												</a>
+											</li>
+											<li class="list-inline-item">
+												<a data-toggle="tooltip" data-placement="top" title="Delete" class="delete" href="">
+													<i class="fa fa-trash"></i>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+
+
+
+		
+
+
+
+
+						</tbody>
+					</table>
+
+				</div>
+
+				<!-- pagination -->
+				<div class="pagination justify-content-center">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item">
+								<a class="page-link" href="#" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+									<span class="sr-only">Previous</span>
+								</a>
+							</li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item active"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item">
+								<a class="page-link" href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+									<span class="sr-only">Next</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<!-- pagination -->
+
+			</div>
+		</div>
+		<!-- Row End -->
+	</div>
+	<!-- Container End -->
+</section>
+<!--============================
+=            Footer            =
+=============================-->
+
+
+
+{% endblock content %}

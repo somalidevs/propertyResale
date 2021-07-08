@@ -27,4 +27,4 @@ class PropertyFilter(django_filters.FilterSet):
     # fullname = django_filters.CharFilter(widgets = SelectMultiple(attrs={'class': 'form-control my-2 my-lg-0"'}),field_name="fullname",lookup_expr='icontains')
     class Meta:
         model = Property
-        fields=['name','category','location','p_type']
+        fields=['name','category','location','ptype']

@@ -22,7 +22,8 @@ from django.http import JsonResponse
 from django.views import generic
 from django.core.paginator import Paginator
 from .filters import *
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from django.views.generic.edit import UpdateView ,DeleteView,CreateView
 
@@ -64,8 +65,6 @@ def PackageViewDetail(request,slug):
         return render(request,'package_detail.html',{'package':package})
 
 
-def Success(request):
-    return render(request,'success.html',{})
 
     
 def TermsConditions(request):
@@ -76,20 +75,31 @@ def BankAccounts(request):
     return render(request,'banks.html',{})
 
 
-# CUSTOMER SECTION
 
-def CustomerView(request):
+
+
+
+
+
+
+
+
+'''ADMIN SECTION'''
+
+
+    
+def adminCustomerView(request):
     customer = Customer.objects.all()
     filtered_customer = CustomerFilter(request.GET,queryset=customer)
     customer = filtered_customer.qs
-    return render(request,'customers.html',{'customers':customer,'filter':filtered_customer})
+    return render(request,'admin_customers.html',{'customers':customer,'filter':filtered_customer})
 
 
-def CustomerDetailView(request,slug):
+def adminCustomerDetailView(request,slug):
     customer = Customer.objects.get(slug=slug)
-    return render(request,'customers_detail.html',{'customer':customer})
+    return render(request,'admin_customers_detail.html',{'customer':customer})
 
-def CustomerEditView(request,slug):
+def adminCustomerEditView(request,slug):
     customer = Customer.objects.get(slug=slug)
     form = CustomerEditForm(request.POST or None,instance=customer)
     if request.POST:    
@@ -100,19 +110,47 @@ def CustomerEditView(request,slug):
             return redirect('../../customers/admin')
         else:
             messages.error(request,'Oops Something Went Wrong')
-    return render(request,'customer_edit.html',{'form':form,'customer':customer})
+    return render(request,'admin_customer_edit.html',{'form':form,'customer':customer})
 
 
 
 
-def CustomerDeleteView(request,slug):
+def adminCustomerDeleteView(request,slug):
     r = Customer.objects.get(slug=slug)
     if request.POST:
         r.delete()
         messages.success(request,'Successfully deleted the User')
         return redirect('../../../admin/customers')
-    return render(request,'customer_delete.html',{'customer':r})
-# ENDCUSTOMER SECTION
+    return render(request,'admin_customer_delete.html',{'customer':r})
+
+
+def adminPropertiesView(request):
+    property_data = Property.objects.all()
+    page = request.GET.get('q')
+    paginator = Paginator(property_data,4)
+    property_data = paginator.get_page(page)
+    form = CreatePropertyForm(request.POST or None)
+    if request.POST:
+        form = CreatePropertyForm(request.POST,request.FILES)
+        if form.is_valid():
+            sr = form.save(commit=False)
+            sr.author=request.user.customer
+            sr.save()
+            messages.success(request,'Successfully Added New Property')
+            return redirect('../../admin/properties')
+    context ={
+        'form':form,
+        'properties':property_data,
+    }
+    return render(request,'admin_properties.html',context)
+
+
+def adminSubscriptions(request):
+    subscription = Subscription.objects.all()
+    return render(request,'admin_subscriptions.html',{'sub':subscription})
+
+
+'''# END aDMIN SECTION'''
 
 
 
@@ -120,7 +158,17 @@ def CustomerDeleteView(request,slug):
 
 
 
-# PROFILE SECTION
+
+
+
+
+
+
+
+
+'''# PROFILE SECTION'''
+
+
 def ProfileView(request):
     user = request.user.customer
     enquiry = EnquiryPlan.objects.filter(user=user)
@@ -160,60 +208,72 @@ def ProfileView(request):
         
         }
 
-    return render(request,'dashboard_user.html',context)
+    return render(request,'customer_properties.html',context)
+
+
+'''# END PROFILE SECTION'''
 
 
 
 
 
 
+'''# START OF STIPE PAYMENT'''
 
 
-
-
-
-# END PROFILE SECTION
-
-
-
-
-
-
-# START OF STIPE PAYMENT
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
 def StripePayment(request,slug):
     public_key = settings.STRIPE_PUBLIC_KEY
     plan = Plan.objects.get(slug=slug)
-    context ={'STRIPE_PUBLIC_KEY':public_key,'slug':plan}
+    context ={'STRIPE_PUBLIC_KEY':public_key,'pricing_tier':plan}
     return render(request,'payment.html',context)
 
-# class PaymentView(generic.TemplateView):
-    
-#     template_name='payment.html'
-    
-#     def get_context_data(self, **kwargs):
-#         context = super(PaymentView,self).get_context_data(**kwargs)
-#         context.update({'STRIPE_PUBLIC_KEY':settings.STRIPE_PUBLIC_KEY})
-    
-#         return context    
     
     
-    
-def createSubscription(request):
-    if request.POST:
-        data = request.post
-        cusotmer_id = request.user.customer.stripe_customer_id
+# def CreateSubscription(request):
+#     if request.POST:
+#         data = request.post
+#         cusotmer_id = request.user.customer.stripe_customer_id
+#         try:
+#             # Attach the payment method to the customer
+#             stripe.PaymentMethod.attach(
+#                 data['paymentMethodId'],
+#                 cusotmer_id,
+#             )
+#             # Set the default payment method on the customer
+#             stripe.Customer.modify(
+#                 cusotmer_id,
+#                 invoice_settings={
+#                     'default_payment_method': data['paymentMethodId'],
+#                 },
+#             )
+
+#             # Create the subscription
+#             subscription = stripe.Subscription.create(
+#                 customer=cusotmer_id,
+#                 items=[{'price': data["priceId"]}],
+#                 expand=['latest_invoice.payment_intent'],
+#             )
+#             data ={}
+#             data.update(subscription)
+#             return JsonResponse(data)
+#         except Exception as e:
+#             return JsonResponse({'error':{'message': str(e)}})
+
+
+class CreateSubscriptionView(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        customer_id = request.user.customer.stripe_customer_id
         try:
             # Attach the payment method to the customer
             stripe.PaymentMethod.attach(
                 data['paymentMethodId'],
-                cusotmer_id,
+                customer=customer_id,
             )
             # Set the default payment method on the customer
             stripe.Customer.modify(
-                cusotmer_id,
+                customer_id,
                 invoice_settings={
                     'default_payment_method': data['paymentMethodId'],
                 },
@@ -221,19 +281,27 @@ def createSubscription(request):
 
             # Create the subscription
             subscription = stripe.Subscription.create(
-                customer=cusotmer_id,
+                customer=customer_id,
                 items=[{'price': data["priceId"]}],
                 expand=['latest_invoice.payment_intent'],
             )
-            data ={}
+
+            data = {}
             data.update(subscription)
-            return JsonResponse(data)
+
+            return Response(data)
         except Exception as e:
-            return JsonResponse({'error':{'message': str(e)}})
+            return Response({
+                "error": {'message': str(e)}
+            })
 
 
 
-def retrySubscription(request):
+def OnSubscriptionComplete(request):
+    return render(request,'success.html',{})
+    
+
+def RetrySubscription(request):
     if request.POST:
         data = request.post
         cusotmer_id = request.user.customer.stripe_customer_id
@@ -261,22 +329,23 @@ def retrySubscription(request):
         except Exception as e:
             return JsonResponse({'error':{'message': str(e)}})
         
-# END OF STRIPE PAYMENT
+'''# END OF STRIPE PAYMENT'''
 
 
 
 
 
 
-
-# PROPERTY HANDLING SECTION
+'''
+# PROPERTY HANDLING SECTION'''
 
 
 def PropertyDisplayView(request):
     category = request.GET.get('category')
     location = request.GET.get('location')
+    ptype = request.GET.get('type')
     
-    if category == None and location == None:
+    if category == None:
         properti = Property.objects.all()
         
         paginator = Paginator(properti,6)
@@ -286,19 +355,24 @@ def PropertyDisplayView(request):
     elif category:
         properti = Property.objects.filter(category__name=category)
 
-    elif location:
+    if location:
         properti = Property.objects.filter(location__name=location)
-        
+    
+    if ptype:
+        properti = Property.objects.filter(ptype__name=ptype)
         
 
     categories = Category.objects.all()
     locations = Location.objects.all()
     p_type = Type.objects.all()
+    properties_to_be_counted = Property.objects.all().count()
+    # p_count = properti.count()
     context={
         'properties':properti,
         'categories':categories,
         'locations':locations,
         'types':p_type,
+        'p_count':properties_to_be_counted,
         # 'properties':properties,
         
     }
@@ -341,12 +415,18 @@ def PropertyEditView(request,slug):
             messages.success(request,'Property Updated Successfully')
     return render(request,'property_edit.html',{'property':properti,'form':form})
 
+def PropertyDeleteView(request,slug):
+    r = Property.objects.get(slug=slug)
+    if request.POST:
+        r.delete()
+        messages.success(request,'Successfully deleted the Property')
+        return redirect('/profile')
+    return render(request,'property_delete.html',{'property':r})
 
+'''# END OF PROPERTY HANDLING SECTION'''
 
-# END OF PROPERTY HANDLING SECTION
-
-
-# CONTACT US SECTION
+'''
+# CONTACT US SECTION'''
 
 
 
@@ -375,7 +455,7 @@ def ContactUsView(request):
     return render(request,'contact-us.html',{})
     
     
-# END OF CONTACT US SECTION
+'''# END OF CONTACT US SECTION'''
 
 
 

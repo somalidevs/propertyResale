@@ -1,5 +1,5 @@
-        
-      <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+      
+          <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
         <div class="sidebar">
           <!-- User Widget -->
           <div class="widget user-dashboard-profile">
@@ -15,17 +15,19 @@
           <!-- Dashboard Links -->
           <div class="widget user-dashboard-menu">
             <ul>
-              <li class="active"><a href="dashboard-my-ads.html"><i class="fa fa-user"></i>Users</a></li>
-              <li><a href="dashboard-favourite-ads.html"><i class="fa fa-bookmark-o"></i> Properties <span>5</span></a></li>
-              <li><a href="dashboard-archived-ads.html"><i class="fa fa-check"></i>Approved Plans <span>12</span></a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-clock-o"></i> Pending Plans<span>23</span></a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-question-circle"></i>Enquired Properties<span>23</span></a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-location-arrow"></i>Locations<span>23</span></a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-list-alt"></i>Categories<span>23</span></a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-cog "></i>Logo/Setting<span>23</span></a></li>
+              {% with request.resolver_match.url_name as url_name %}
+              <li class="{% if url_name == 'admin_customers_view' %}active{% endif %}"><a href="{% url 'admin_customers_view'%}"><i class="fa fa-users"></i>Customer</a></li>
+              <li class="{% if url_name == 'admin_properties_view' %}active{% endif %}"><a href="{% url 'admin_properties_view'%}"><i class="fa fa-home"></i> Properties</a></li>
+              <li class="{% if url_name == 'admin_subscriptions_view' %}active{% endif %}"><a href="{% url 'admin_subscriptions_view'%}"><i class="fa fa-check"></i>Subscriptions</a></li>
+              <li><a href="dashboard-pending-ads.html"><i class="fa fa-question-circle"></i>Enquired Propertie</a></li>
+              <li><a href="dashboard-pending-ads.html"><i class="fa fa-location-arrow"></i>Location</a></li>
+              <li><a href="dashboard-pending-ads.html"><i class="fa fa-list-alt"></i>Categories</a></li>
+              <li><a href="dashboard-pending-ads.html"><i class="fa fa-envelope"></i>Contacts</a></li>
+              <li><a href="dashboard-pending-ads.html"><i class="fa fa-cog "></i>Logo/Settin</a></li>
               <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
               <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
                   Account</a></li>
+              {% endwith %}
             </ul>
           </div>
 

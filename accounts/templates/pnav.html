@@ -55,22 +55,23 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav ml-auto main-nav">
-							<li class="nav-item active">
-								<a class="nav-link" href="{% url 'index_view' %}">Home</a>
+              {% with request.resolver_match.url_name as url_name %}
+							<li class="nav-item">
+								<a class="nav-link {% if url_name == 'index_view' %}active{% endif %}" href="{% url 'index_view' %}">Home</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link"  href="{%url 'property_view'%}">Properties</a>
+								<a class="nav-link {% if url_name == 'property_view' %}active text-dark font-weight-bold {% endif %}"  href="{%url 'property_view'%}">Properties</a>
 							</li>
               <li class="nav-item">
-								<a class="nav-link"  href="{%url 'package_view'%}">Pricing<span></span>
+								<a class="nav-link {% if url_name == 'package_view' %}active{% endif %}"  href="{%url 'package_view'%}">Pricing<span></span>
 								</a>
 							</li>
               <li class="nav-item">
-								<a class="nav-link"  href="{%url 'property_view'%}"">About<span></span>
+								<a class="nav-link {% if url_name == 'property_view' %}active{% endif %}"  href="{%url 'property_view'%}"">About<span></span>
 								</a>
 							</li>
               <li class="nav-item">
-								<a class="nav-link"  href="{%url 'contact_us_view'%}"">Contact<span></span>
+								<a class="nav-link {% if url_name == 'contact_us_view' %}active{% endif %}"  href="{%url 'contact_us_view'%}"">Contact<span></span>
 								</a>
 							</li>
 							
@@ -98,6 +99,7 @@
                 <a class="nav-link login-button" href="{% url 'register_view' %}">Register</a>
 								{% endif %}
 							</li>
+              {% endwith %}
 						</ul>
 					</div>
 				</nav>
@@ -236,6 +238,7 @@
   <script src="{% static 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places' %}"></script>
   <script src="{% static 'plugins/google-map/gmap.js' %}"></script>
   <script src="{% static 'js/script.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
   
   </body>
   
