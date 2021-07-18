@@ -19,12 +19,12 @@
               <li class="{% if url_name == 'admin_customers_view' %}active{% endif %}"><a href="{% url 'admin_customers_view'%}"><i class="fa fa-users"></i>Customer</a></li>
               <li class="{% if url_name == 'admin_properties_view' %}active{% endif %}"><a href="{% url 'admin_properties_view'%}"><i class="fa fa-home"></i> Properties</a></li>
               <li class="{% if url_name == 'admin_subscriptions_view' %}active{% endif %}"><a href="{% url 'admin_subscriptions_view'%}"><i class="fa fa-check"></i>Subscriptions</a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-question-circle"></i>Enquired Propertie</a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-location-arrow"></i>Location</a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-list-alt"></i>Categories</a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-envelope"></i>Contacts</a></li>
-              <li><a href="dashboard-pending-ads.html"><i class="fa fa-cog "></i>Logo/Settin</a></li>
-              <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+              <li class="{% if url_name == 'admin_enquired_properties_view' %}active{% endif %}"><a href="{% url 'admin_enquired_properties_view'%}"><i class="fa fa-question-circle"></i>Enquired Propertie</a></li>
+              <li class="{% if url_name == 'admin_locations_view' %}active{% endif %}"><a href="{% url 'admin_locations_view'%}"><i class="fa fa-location-arrow"></i>Location</a></li>
+              <li class="{% if url_name == 'admin_categories_view' %}active{% endif %}"><a href="{% url 'admin_categories_view'%}"><i class="fa fa-list-alt"></i>Categories</a></li>
+              <li class="{% if url_name == 'admin_contacts_view' %}active{% endif %}"><a href="{% url 'admin_contacts_view'%}"><i class="fa fa-envelope"></i>Contacts</a></li>
+              
+              <li><a href="{% url 'logout_view'%}"><i class="fa fa-sign-out"></i> Logout</a></li>
               <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
                   Account</a></li>
               {% endwith %}
@@ -44,14 +44,19 @@
                         </button>
                       </div>
                       <div class="modal-body text-center">
-                        <img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
+                        <img src="{% static images/account/Account1.png" class="img-fluid mb-2" alt="">
                         <h6 class="py-2">Are you sure you want to delete your account?</h6>
                         <p>Do you really want to delete these records? This process cannot be undone.</p>
-                        <textarea name="message" id="" cols="40" rows="4" class="w-100 rounded"></textarea>
+                        <form method="POST" action="{% url 'remove_account_view'%}">
+                          {% csrf_token %}
+                          <textarea name="message" id="" cols="40" rows="4" class="w-100 rounded" placeholder="Reason?"></textarea>
+                        
+                        
                       </div>
                       <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
                       </div>
                     </div>
                   </div>

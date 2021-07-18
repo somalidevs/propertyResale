@@ -5,7 +5,7 @@ from django.http import HttpResponse
 def unathenticated_user(view_func):
     def checking_func(request,*args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('home')
+            return redirect('/')
         else:
             return view_func(request,*args, **kwargs)
         
@@ -36,8 +36,8 @@ def admin_only(view_func):
         if request.user.groups.exists():
             group = request.user.groups.all()[0].name
 
-        if group =='customer':
-            return redirect('user_page')
+        if group ==None:
+            return redirect('/profile')
         elif group == 'admin':
             return view_func(request,*args, **kwargs)
         else:

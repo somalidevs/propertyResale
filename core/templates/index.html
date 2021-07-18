@@ -17,7 +17,8 @@
 				<!-- Header Contetnt -->
 				<div class="content-block">
 					<h1>Buy & Sell Near You </h1>
-					<p>Join the millions who buy and sell from each other <br> everyday in local communities around the world</p>
+					<p>Join the millions who buy and sell from each other <br> everyday in local communities around the
+						world</p>
 					<div class="short-popular-category-list text-center">
 						<h2>Popular Category</h2>
 						<ul class="list-inline">
@@ -37,38 +38,39 @@
 							</li>
 						</ul>
 					</div>
-					
+
 				</div>
 				<!-- Advance Search -->
 				<div class="advance-search">
-						<div class="container">
-							<div class="row justify-content-center">
-								<div class="col-lg-12 col-md-12 align-content-center">
-									<form action="{% url 'property_advanced_search_view'%}" method="GET">
-										<div class="form-row">
-											<!-- {{filter.form.fullname}} -->
-											<div class="form-group col-md-3">
-												{% render_field filter.form.name class="form-control my-2 my-lg-0 " placeholder="Property Name ?" %}
-											</div>
-			
-											<div class="form-group col-md-3">
-												<option>{% render_field filter.form.location class='form-control w-100' %}</option>
-			
-											</div>
-											<div class="form-group col-md-3">
-												{% render_field filter.form.category class="form-control w-100" %}
-											</div>
-
-											<div class="form-group col-md-2">
-												<button type="submit" class="btn btn-primary">Search Now</button>
-											</div>
+					<div class="container">
+						<div class="row justify-content-center">
+							<div class="col-lg-12 col-md-12 align-content-center">
+								<form action="{% url 'property_advanced_search_view'%}" method="GET">
+									<div class="form-row">
+										<!-- {{filter.form.fullname}} -->
+										<div class="form-group col-md-3">
+											{% render_field filter.form.name class="form-control my-2 my-lg-0 " placeholder="Property Name ?" %}
 										</div>
-									</form>
+
+										<div class="form-group col-md-3">
+											<option>{% render_field filter.form.location class='form-control w-100' %}
+											</option>
+
+										</div>
+										<div class="form-group col-md-3">
+											{% render_field filter.form.category class="form-control w-100" %}
+										</div>
+
+										<div class="form-group col-md-2">
+											<button type="submit" class="btn btn-primary">Search Now</button>
+										</div>
 									</div>
-								</div>
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -101,42 +103,38 @@
 
 
 
-{% for property in properties %}
-<div class="col-sm-12 col-lg-4">
+					{% for property in properties %}
+					<div class="col-sm-12 col-lg-4">
 						<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-			<a href="{% url 'property_detail_view' property.slug%}">
-				<img class="card-img-top img-fluid" src="{{property.images_1.url}}" alt="Card image cap">
-			</a>
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href="single.html">{{property.name}}</a></h4>
-		    <ul class="list-inline product-meta">
-		    	<li class="list-inline-item">
-		    		<a href="single.html"><i class="fa fa-folder-open-o"></i>{{property.category}}</a>
-		    	</li>
-		    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>{{property.date_created}}</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">{{property.description}}!</p>
-		    <div class="product-ratings">
-		    	<ul class="list-inline">
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-		    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-		    	</ul>
-		    </div>
-		</div>
-	</div>
-</div>
-</div>
-{% endfor %}
+						<div class="product-item bg-light">
+							<div class="card">
+								<div class="thumb-content">
+									<!-- <div class="price">$200</div> -->
+									<a href="{% url 'property_detail_view' property.slug%}">
+										<img class="card-img-top img-fluid" src="{{property.images_1.url}}"
+											alt="Card image cap">
+									</a>
+								</div>
+								<div class="card-body">
+									<h4 class="card-title"><a href="single.html">{{property.name}}</a></h4>
+									<ul class="list-inline product-meta">
+										<li class="list-inline-item">
+											<a href="single.html"><i
+													class="fa fa-folder-open-o"></i>{{property.category}}</a>
+										</li>
+										<li class="list-inline-item">
+											<a href="#"><i class="fa fa-calendar"></i>{{property.date_created}}</a>
+										</li>
+									</ul>
+									<p class="card-text"><i class="fa fa-user">{{property.author}}</i></p>
+									<div class="product-ratings">
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
 
 
 
@@ -145,8 +143,8 @@
 
 				</div>
 			</div>
-			
-			
+
+
 		</div>
 	</div>
 </section>
@@ -172,13 +170,13 @@
 					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
 						<div class="category-block">
 							<div class="header">
-								<i class="fa fa-laptop icon-bg-1"></i> 
+								<i class="fa fa-laptop icon-bg-1"></i>
 								<h4>Electronics</h4>
 							</div>
-							<ul class="category-list" >
+							<ul class="category-list">
 								<li><a href="category.html">Laptops <span>93</span></a></li>
 								<li><a href="category.html">Iphone <span>233</span></a></li>
-								<li><a href="category.html">Microsoft  <span>183</span></a></li>
+								<li><a href="category.html">Microsoft <span>183</span></a></li>
 								<li><a href="category.html">Monitors <span>343</span></a></li>
 							</ul>
 						</div>
@@ -187,13 +185,13 @@
 					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
 						<div class="category-block">
 							<div class="header">
-								<i class="fa fa-apple icon-bg-2"></i> 
+								<i class="fa fa-apple icon-bg-2"></i>
 								<h4>Restaurants</h4>
 							</div>
-							<ul class="category-list" >
+							<ul class="category-list">
 								<li><a href="category.html">Cafe <span>393</span></a></li>
 								<li><a href="category.html">Fast food <span>23</span></a></li>
-								<li><a href="category.html">Restaurants  <span>13</span></a></li>
+								<li><a href="category.html">Restaurants <span>13</span></a></li>
 								<li><a href="category.html">Food Track<span>43</span></a></li>
 							</ul>
 						</div>
@@ -202,13 +200,13 @@
 					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
 						<div class="category-block">
 							<div class="header">
-								<i class="fa fa-home icon-bg-3"></i> 
+								<i class="fa fa-home icon-bg-3"></i>
 								<h4>Real Estate</h4>
 							</div>
-							<ul class="category-list" >
+							<ul class="category-list">
 								<li><a href="category.html">Farms <span>93</span></a></li>
 								<li><a href="category.html">Gym <span>23</span></a></li>
-								<li><a href="category.html">Hospitals  <span>83</span></a></li>
+								<li><a href="category.html">Hospitals <span>83</span></a></li>
 								<li><a href="category.html">Parolurs <span>33</span></a></li>
 							</ul>
 						</div>
@@ -217,10 +215,10 @@
 					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
 						<div class="category-block">
 							<div class="header">
-								<i class="fa fa-shopping-basket icon-bg-4"></i> 
+								<i class="fa fa-shopping-basket icon-bg-4"></i>
 								<h4>Shoppings</h4>
 							</div>
-							<ul class="category-list" >
+							<ul class="category-list">
 								<li><a href="category.html">Mens Wears <span>53</span></a></li>
 								<li><a href="category.html">Accessories <span>212</span></a></li>
 								<li><a href="category.html">Kids Wears <span>133</span></a></li>
@@ -229,71 +227,20 @@
 						</div>
 					</div> <!-- /Category List -->
 					<!-- Category list -->
-					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-						<div class="category-block">
-							<div class="header">
-								<i class="fa fa-briefcase icon-bg-5"></i> 
-								<h4>Jobs</h4>
-							</div>
-							<ul class="category-list" >
-								<li><a href="category.html">It Jobs <span>93</span></a></li>
-								<li><a href="category.html">Cleaning & Washing <span>233</span></a></li>
-								<li><a href="category.html">Management  <span>183</span></a></li>
-								<li><a href="category.html">Voluntary Works <span>343</span></a></li>
-							</ul>
-						</div>
-					</div> <!-- /Category List -->
+
+
 					<!-- Category list -->
-					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-						<div class="category-block">
-							<div class="header">
-								<i class="fa fa-car icon-bg-6"></i> 
-								<h4>Vehicles</h4>
-							</div>
-							<ul class="category-list" >
-								<li><a href="category.html">Bus <span>193</span></a></li>
-								<li><a href="category.html">Cars <span>23</span></a></li>
-								<li><a href="category.html">Motobike  <span>33</span></a></li>
-								<li><a href="category.html">Rent a car <span>73</span></a></li>
-							</ul>
-						</div>
-					</div> <!-- /Category List -->
-					<!-- Category list -->
-					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-						<div class="category-block">
-							<div class="header">
-								<i class="fa fa-paw icon-bg-7"></i> 
-								<h4>Pets</h4>
-							</div>
-							<ul class="category-list" >
-								<li><a href="category.html">Cats <span>65</span></a></li>
-								<li><a href="category.html">Dogs <span>23</span></a></li>
-								<li><a href="category.html">Birds  <span>113</span></a></li>
-								<li><a href="category.html">Others <span>43</span></a></li>
-							</ul>
-						</div>
-					</div> <!-- /Category List -->
-					<!-- Category list -->
-					<div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-						<div class="category-block">
-							
-							<div class="header">
-								<i class="fa fa-laptop icon-bg-8"></i> 
-								<h4>Services</h4>
-							</div>
-							<ul class="category-list" >
-								<li><a href="category.html">Cleaning <span>93</span></a></li>
-								<li><a href="category.html">Car Washing <span>233</span></a></li>
-								<li><a href="category.html">Clothing  <span>183</span></a></li>
-								<li><a href="category.html">Business <span>343</span></a></li>
-							</ul>
-						</div>
-					</div> <!-- /Category List -->
-					
-					
-				</div>
+
+
+				</div> <!-- /Category List -->
+
+
 			</div>
+
+
 		</div>
+		<center><a href="{% url 'property_view'%}"><button class="btn btn-danger">View More</button></a></center>
+	</div>
 	</div>
 	<!-- Container End -->
 </section>
@@ -310,10 +257,12 @@
 			<div class="col-md-8">
 				<div class="content-holder">
 					<h2>Start today to get more exposure and
-					grow your business</h2>
+						grow your business</h2>
 					<ul class="list-inline mt-30">
-						<li class="list-inline-item"><a class="btn btn-main" href="ad-listing.html">Add Listing</a></li>
-						<li class="list-inline-item"><a class="btn btn-secondary" href="category.html">Browser Listing</a></li>
+						<li class="list-inline-item"><a class="btn btn-main" href="{% url 'register_view'%}">Create YOur
+								Account Now</a></li>
+						<li class="list-inline-item"><a class="btn btn-secondary"
+								href="{% url 'property_view'%}">Browser Properties</a></li>
 					</ul>
 				</div>
 			</div>
@@ -329,4 +278,4 @@
 
 
 
-  {% endblock content %}
+{% endblock content %}

@@ -30,7 +30,7 @@ class Category(models.Model):
         def __str__(self):
             return self.name
     
-STATUS=(('active','active'),('inactive','inactive'))
+STATUS=(('active','active'),('inactive','inactive')) 
 class Property(models.Model):
         name=models.CharField(max_length=100)
         author=models.ForeignKey(Customer,on_delete=models.CASCADE,blank=True,null=True)
@@ -40,7 +40,6 @@ class Property(models.Model):
         brand = models.CharField(blank=True,null=True,max_length=100)
         ptype=models.ForeignKey(Type,on_delete=models.CASCADE)
         location=models.ForeignKey(Location,on_delete=models.CASCADE)
-        score = models.IntegerField(default=0,validators=[MaxValueValidator(5),MinValueValidator(0)])
         images_1=models.ImageField(upload_to='images') 
         images_2=models.ImageField(upload_to='images',blank=True,null=True) 
         images_3=models.ImageField(upload_to='images',blank=True,null=True) 
@@ -94,6 +93,7 @@ class Enquiry(models.Model):
     user = models.ForeignKey(Customer,on_delete=models.CASCADE)
     related_property  = models.ForeignKey(Property,on_delete=models.CASCADE)
     message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
     
     
     def __str__(self):
@@ -172,5 +172,22 @@ class ContactUs(models.Model):
 
 
 
-
+class AboutUs(models.Model):
+        introduction = models.TextField()
+        message = models.TextField() 
+        image = models.ImageField(upload_to='team')
+        
+        
+        def __str__(self):
+                return self.introduction
+        
+        
+class Team(models.Model):
+        name = models.CharField(max_length=100)
+        title = models.CharField(max_length=100) 
+        image = models.ImageField(upload_to='team')
+        
+        
+        def __str__(self):
+                return self.name
 

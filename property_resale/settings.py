@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-xd=8+-_95q*a+n2id-0=qw(*de70pstj52#r7uvil9u-3u5!-8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','fa6666584bd6.ngrok.io']
 
 
 # Application definition
@@ -173,7 +173,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-
+LOGIN_URL='/login'
 
 
 GRAPH_MODELS = {
@@ -184,3 +184,4 @@ GRAPH_MODELS = {
 
 STRIPE_PUBLIC_KEY= "pk_test_51IgPP7LkW4Uiu90UDTOIbz6VQ3ZnqReVh207cedHQD9fmWZYaZnlgZoQKT2McizyAWWUOwh6aCYvvMkEtGWotVOj00jEcjaFEL"
 STRIPE_SECRET_KEY= "sk_test_51IgPP7LkW4Uiu90UDEW7MTiM9GdkDGmLY245bxRMMFymWRtnFtLg7hpfwVUaYHvDb1zpP6LhE7xhxG2oXnYnH1Da009GEKFruy"
+STRIPE_WEBHOOK_SECRET = "whsec_ojSRBskG1FTORGDGk6lZPqqLhkql3q9P"

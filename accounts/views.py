@@ -10,9 +10,9 @@ from django.core.mail import send_mail
 import time
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
-
+from core.restricters import unathenticated_user
 from .forms import *
-
+@unathenticated_user
 def loginView(request):
     if request.method=='POST':
         username = request.POST.get('username')
@@ -31,7 +31,9 @@ def loginView(request):
                 messages.success(request,'Wrong password')
                 return redirect('/login')
             login(request,user)
-            return redirect('/profile')
+            nex_page = request.GET.get('next')
+            return redirect(nex_page) if nex_page else redirect('/profile')
+            
         except:
             messages.success(request,'User is not Customer')
             return redirect('/login')
@@ -49,7 +51,7 @@ def LogoutView(request):
 
 
 
-
+@unathenticated_user
 def registerView(request):
     if request.POST:
         username = request.POST.get('username')
@@ -78,6 +80,18 @@ def registerView(request):
             print(e)
 
     return render(request,'register.html',{})
+
+
+def remove_account(request):
+    user_pk = request.user.pk
+    if request.POST:
+        user = request.user.customer
+        msg = request.POST.get('message')
+        dm = Deletemessage.objects.create(user=user,message=msg)
+        dm.save()
+        logout(request)
+        User.objects.filter(pk=user_pk).update(is_active=False)
+        return redirect('/login')
         
 
 
@@ -121,11 +135,13 @@ def send_mail_after_registration(email,username,token):
 def UserProfile(request):
     user = request.user.customer
     form = ProfileUpdateForm(request.POST or None,instance=user)
-
+    user_pk = request.user.pk
     if request.POST:
+        email = request.POST.get('email')
         form = ProfileUpdateForm(request.POST,request.FILES,instance=user)
         if form.is_valid():
             form.save()
+            messages.success(request,'successfully Updated Your Profile')
             return redirect('/profile')
     return render(request,'create_user_profile.html',{'form':form})
 

@@ -39,20 +39,16 @@
 									{% endif %}
 									<span class="add-id"><strong>SUB ID:</strong> {{subs.stripe_subscription_id}}</span>
 									<span><strong>Subscriped: </strong><time>{{subs.created}}</time> </span>
-									<span class="status active"><strong>Status</strong>{{subs.status}}</span>
+									<span class="status active" style="color: darkgreen;"><strong>Status</strong><b>{{subs.status}}</b></span>
 				
 								</td>
 								<td class="product-category"><span class="categories">{{subs.plan.name}}</span></td>
 								<td class="action" data-title="Action">
 									<div class="">
 										<ul class="list-inline justify-content-center">
+										
 											<li class="list-inline-item">
-												<a data-toggle="tooltip" data-placement="top" title="Edit" class="edit" href="">
-													<i class="fa fa-clipboard"></i>
-												</a>
-											</li>
-											<li class="list-inline-item">
-												<a data-toggle="tooltip" data-placement="top" title="Delete" class="delete" href="">
+												<a data-toggle="tooltip" data-placement="top" title="Delete" class="delete" href="{% url 'admin_subscriptions_delete_view' subs.id%}">
 													<i class="fa fa-trash"></i>
 												</a>
 											</li>

@@ -67,7 +67,7 @@
 								</a>
 							</li>
               <li class="nav-item">
-								<a class="nav-link {% if url_name == 'property_view' %}active{% endif %}"  href="{%url 'property_view'%}"">About<span></span>
+								<a class="nav-link {% if url_name == 'about_us_view' %}active{% endif %}"  href="{%url 'about_us_view'%}"">About<span></span>
 								</a>
 							</li>
               <li class="nav-item">
@@ -134,9 +134,9 @@
             <!-- footer logo -->
             <img src="{% static 'images/logo-footer.png'%}" alt="">
             <!-- description -->
-            <p class="alt-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p class="alt-color">Upload Your Properties.</p>
+            <p class="alt-color">advertise your properties.</p>
+            <p class="alt-color">Become a seller and setup your profile </p>
           </div>
         </div>
         <!-- Link list -->
@@ -144,26 +144,24 @@
           <div class="block">
             <h4>Site Pages</h4>
             <ul>
-              <li><a href="#">Boston</a></li>
-              <li><a href="#">How It works</a></li>
-              <li><a href="#">Deals & Coupons</a></li>
-              <li><a href="#">Articls & Tips</a></li>
-              <li><a href="terms-condition.html">Terms & Conditions</a></li>
+              <li><a href="{% url 'contact_us_view'%}">Contact Us</a></li>
+              <li><a href="{% url 'package_view'%}">Pricing</a></li>
+              <li><a href="{% url 'terms_conditions_view'%}">Terms & Conditions</a></li>
             </ul>
           </div>
         </div>
         <!-- Link list -->
         <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
           <div class="block">
-            <h4>Admin Pages</h4>
+            <h4>Other Pages Pages</h4>
             <ul>
-              <li><a href="category.html">Category</a></li>
-              <li><a href="single.html">Single Page</a></li>
-              <li><a href="store.html">Store Single</a></li>
-              <li><a href="single-blog.html">Single Post</a>
+              <li><a href="{% url 'property_view'%}">Properties</a></li>
+              <li><a href="{% url 'about_us_view'%}">About The Team</a></li>
+              {% if request.user.is_superuser%}
+              <li><a href="{% url 'admin_customers_view'%}">Admin</a>
+                {% endif %}
               </li>
-              <li><a href="blog.html">Blog</a></li>
-  
+              
   
   
             </ul>
@@ -178,7 +176,7 @@
                 <!-- Icon -->
                 <img src="{% static 'images/footer/phone-icon.png'%}" alt="mobile-icon">
               </a>
-              <p>Get the Dealsy Mobile App and Save more</p>
+              <p>Get the Dealsy Mobile App and Save more(Coming Soon)</p>
             </div>
             <div class="download-btn d-flex my-3">
               <a href="#"><img src="images/apps/google-play-store.png" class="img-fluid" alt=""></a>
@@ -201,16 +199,16 @@
             <p>Copyright © <script>
                 var CurrentYear = new Date().getFullYear()
                 document.write(CurrentYear)
-              </script>. All Rights Reserved, theme by <a class="text-primary" href="https://themefisher.com" target="_blank">themefisher.com</a></p>
+              </script>. All Rights Reserved by <a class="text-primary" href="https://amiigotech.com" target="_blank">Amiigotech</a></p>
           </div>
         </div>
         <div class="col-sm-6 col-12">
           <!-- Social Icons -->
           <ul class="social-media-icons text-right">
-            <li><a class="fa fa-facebook" href="https://www.facebook.com/themefisher" target="_blank"></a></li>
-            <li><a class="fa fa-twitter" href="https://www.twitter.com/themefisher" target="_blank"></a></li>
-            <li><a class="fa fa-pinterest-p" href="https://www.pinterest.com/themefisher" target="_blank"></a></li>
-            <li><a class="fa fa-vimeo" href=""></a></li>
+            <li><a class="fa fa-facebook" href="https://www.facebook.com/amiigtech" target="_blank"></a></li>
+            <li><a class="fa fa-twitter" href="https://www.twitter.com/amiigtech" target="_blank"></a></li>
+            <li><a class="fa fa-pinterest-p" href="https://www.pinterest.com/amiigtech" target="_blank"></a></li>
+            <li><a class="fa fa-vimeo" href="https://www.vimeo.com/amiigtech"></a></li>
           </ul>
         </div>
       </div>

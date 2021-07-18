@@ -40,3 +40,8 @@ class Customer(models.Model):
             
         return super().save(*args,**kwargs)
 
+class Deletemessage(models.Model):
+    user = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    message = models.TextField(max_length=100000)
+    def __str__(self):
+        return self.message

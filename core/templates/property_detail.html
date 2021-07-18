@@ -16,8 +16,12 @@
 			<div class="col-md-12">
 				<form method="POST">{% csrf_token %}
 					<div class="modal-body">
+						<h3>Please Provide the following In the message</h3>
+						<center><p>Phone Number &Contact Address </p></center>
+						<p></p>
+
 						<fieldset class="p-4">
-							<textarea name="message" id="" placeholder="Message *"
+							<textarea name="message" id="" placeholder="Message*"
 								class="border w-100 p-3 mt-3 mt-lg-4"></textarea>
 							<div class="btn-grounp">
 								<button type="submit" class="btn btn-primary mt-2 float-right">SUBMIT</button>
@@ -57,7 +61,7 @@
 					<div class="product-meta">
 						<ul class="list-inline">
 							<li class="list-inline-item"><i class="fa fa-user-o"></i> By <a
-									href="">{{property.author.fullname}}</a></li>
+									href="">{{property.author.user.username|capfirst}}</a></li>
 							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Category<a
 									href="">{{property.category.name}}</a></li>
 							<li class="list-inline-item"><i class="fa fa-location-arrow"></i> Location<a
@@ -110,38 +114,9 @@
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel"
 								aria-labelledby="pills-home-tab">
 								<h3 class="tab-title">Product Description</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia laudantium beatae
-									quod perspiciatis, neque
-									dolores eos rerum, ipsa iste cum culpa numquam amet provident eveniet pariatur, sunt
-									repellendus quas
-									voluptate dolor cumque autem molestias. Ab quod quaerat molestias culpa eius,
-									perferendis facere vitae commodi
-									maxime qui numquam ex voluptatem voluptate, fuga sequi, quasi! Accusantium eligendi
-									vitae unde iure officia
-									amet molestiae velit assumenda, quidem beatae explicabo dolore laboriosam mollitia
-									quod eos, eaque voluptas
-									enim fuga laborum, error provident labore nesciunt ad. Libero reiciendis
-									necessitatibus voluptates ab
-									excepturi rem non, nostrum aut aperiam? Itaque, aut. Quas nulla perferendis neque
-									eveniet ullam?</p>
+								<p>{{property.description}}</p>
 
-								<iframe width="100%" height="400"
-									src="https://www.youtube.com/embed/LUH7njvhydE?rel=0&amp;controls=0&amp;showinfo=0"
-									frameborder="0" allowfullscreen></iframe>
-								<p></p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam sed, officia
-									reiciendis necessitatibus
-									obcaecati eum, quaerat unde illo suscipit placeat nihil voluptatibus ipsa omnis
-									repudiandae, excepturi! Id
-									aperiam eius perferendis cupiditate exercitationem, mollitia numquam fuga, inventore
-									quam eaque cumque fugiat,
-									neque repudiandae dolore qui itaque iste asperiores ullam ut eum illum aliquam
-									dignissimos similique! Aperiam
-									aut temporibus optio nulla numquam molestias eum officia maiores aliquid laborum et
-									officiis pariatur,
-									delectus sapiente molestiae sit accusantium a libero, eligendi vero eius laboriosam
-									minus. Nemo quibusdam
-									nesciunt doloribus repellendus expedita necessitatibus velit vero?</p>
+								
 
 							</div>
 							<div class="tab-pane fade" id="pills-profile" role="tabpanel"
@@ -151,36 +126,27 @@
 									<tbody>
 										<tr>
 											<td>Seller Price</td>
-											<td>$450</td>
+											<td>${{property.price}}</td>
 										</tr>
 										<tr>
 											<td>Added</td>
-											<td>26th December</td>
+											<td>{{property.date_created}}</td>
 										</tr>
 										<tr>
-											<td>State</td>
-											<td>Dhaka</td>
+											<td>Location</td>
+											<td>{{property.location}}</td>
 										</tr>
 										<tr>
 											<td>Brand</td>
-											<td>Apple</td>
+											<td>{{property.brand}}</td>
 										</tr>
 										<tr>
 											<td>Condition</td>
-											<td>Used</td>
+											<td>{{property.ptype}}</td>
 										</tr>
-										<tr>
-											<td>Model</td>
-											<td>2017</td>
-										</tr>
-										<tr>
-											<td>State</td>
-											<td>Dhaka</td>
-										</tr>
-										<tr>
-											<td>Battery Life</td>
-											<td>23</td>
-										</tr>
+									
+									
+										
 									</tbody>
 								</table>
 							</div>
@@ -263,7 +229,7 @@
 
 			<div class="col-md-4">
 				<div class="sidebar">
-					<div class="widget price text-center" style="background-color: #28a745;">
+					<div class="widget price text-center" >
 						<h4>Price</h4>
 						<p>${{property.price}}</p>
 					</div>
@@ -274,12 +240,10 @@
 						<p class="member-time">Member Since {{property.date_created}}</p>
 						<a href="">See all ads</a>
 						<ul class="list-inline mt-20">
-							<li class="list-inline-item"><a href=""
-									class="btn btn-contact d-inline-block  btn-primary btn-main-sm px-lg-5 my-1 px-md-3">Contact</a>
-							</li>
+							
 							{% if request.user.is_authenticated %}
 							<li class="list-inline-item"><button class="btn btn-main-sm btn-primary"
-									data-target="#addproperty" data-toggle="modal">Enquiry/Make an Offer</button>
+									data-target="#addproperty" data-toggle="modal">Make an Offer</button>
 							</li>
 							{% endif %}
 							{% if request.user.customer == property.author %}
@@ -290,30 +254,11 @@
 						</ul>
 					</div>
 					<!-- Map Widget -->
-					<div class="widget map">
-						<div class="map">
-							<div id="map_canvas" data-latitude="51.507351" data-longitude="-0.127758"></div>
-						</div>
-					</div>
+			
 					<!-- Rate Widget -->
-					<div class="widget rate">
-						<!-- Heading -->
-						<h5 class="widget-header text-center">What would you rate
-							<br>
-							this product</h5>
-						<!-- Rate -->
-						<div class="starrr"></div>
-					</div>
+					
 					<!-- Safety tips widget -->
-					<div class="widget disclaimer">
-						<h5 class="widget-header">Safety Tips</h5>
-						<ul>
-							<li>Meet seller at a public place</li>
-							<li>Check the item before you buy</li>
-							<li>Pay only after collecting the item</li>
-							<li>Pay only after collecting the item</li>
-						</ul>
-					</div>
+	
 					<!-- Coupon Widget -->
 					<div class="widget coupon text-center">
 						<!-- Coupon description -->

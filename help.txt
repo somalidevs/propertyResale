@@ -1,0 +1,4 @@
+To run ngrok-> which will allow stripe to send you information on stripe that someone paid the amount required, or the package
+we download ngrok... unzip it .... and put it in your django app and write the following commands
+	./ngrok http 8000 -> which is the port we are running or loading the django app
+	
