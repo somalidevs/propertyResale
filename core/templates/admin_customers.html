@@ -112,9 +112,9 @@
                 </td>
                 
                 {% if customer.role == "seller" %}
-                <td class="product-category"><span class="categories">Premium</span></td>    
+                <td class="product-category"><span class="categories">Seller</span></td>    
                 {% else %}
-                <td class="product-category"><span class="categories">User</span></td>
+                <td class="product-category"><span class="categories">Buyer</span></td>
                 {% endif %}
                     
                 
@@ -168,7 +168,7 @@
 							<li class="page-item">
 								<a class="page-link" href="?q={{customers.previous_page_number}}"" aria-label="Previous">
 									<span aria-hidden="true">&laquo;</span>
-							 		<span class="sr-only">Previous</span>
+							 		<sp   an class="sr-only">Previous</span>
 								</a>
 							</li>
               {% endif %}

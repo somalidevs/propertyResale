@@ -137,7 +137,7 @@ def adminCustomerDeleteView(request,slug):
 
 @admin_only
 def adminPropertiesView(request):
-    property_data = Property.objects.all()
+    property_data = Property.objects.all().order_by('-id')
     page = request.GET.get('q')
     paginator = Paginator(property_data,4)
     property_data = paginator.get_page(page)
@@ -184,6 +184,11 @@ def adminLocationsDeleteView(request,pk):
 @admin_only
 def adminCategoriesView(request):
     enq = Category.objects.all()
+    if request.POST:
+        name = request.POST.get('name')
+        ctgr = Category.objects.create(name=name)
+        ctgr.save()
+        messages.success(request,'Successfully Added The Category')
     return render(request,'admin_categories.html',{'properties':enq})
 
 

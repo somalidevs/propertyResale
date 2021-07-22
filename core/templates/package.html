@@ -30,7 +30,7 @@
                         {% endif %}
 
                         <a href="{% url 'payments' package.slug %}"><h2>{{package.name}}</h2></a>
-                        <h4 class="py-3"> <span>birr{{package.price}}.00</span> Per Month</h4>
+                        <h4 class="py-3"> <span>${{package.price}}.00</span> Per Month</h4>
                     </div>
                     <ul>
                         <li class="my-4"> <i class="fa fa-check"></i> Free Ad Posting</li>
