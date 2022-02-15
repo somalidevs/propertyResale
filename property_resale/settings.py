@@ -184,7 +184,7 @@ GRAPH_MODELS = {
 
 STRIPE_PUBLIC_KEY= os.environ.get('stribe_p_key')
 STRIPE_SECRET_KEY= os.environ.get('stripe_s_key')
-STRIPE_WEBHOOK_SECRET = "whsec_ojSRBskG1FTORGDGk6lZPqqLhkql3q9P"
+STRIPE_WEBHOOK_SECRET = os.environ.get('stripe_wh_s_key')
 
 
 print(BASE_DIR)
